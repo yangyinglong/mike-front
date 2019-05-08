@@ -1,42 +1,58 @@
 import Vue from "vue"
-import VueX from "vuex"
+import Vuex from "vuex"
 
-Vue.use(VueX)
+Vue.use(Vuex)
 
-export default new VueX.Store({
-	state:{
-		order:{
-			"counter":1,
-			"downmenu":1,
-			"radios":1
-		},
-		totalPrice:0
-	},
-
-	mutations:{
-		updateOrder(state, data){
-			state.order[data[0]] = data[1]
-		},
-		updatePrice(state, price){
-			state.totalPrice = price
-		}
-	},
-
-	actions:{
-		updateOrder(context, data){
-			context.commit("updateOrder", data);
-		},
-		updatePrice(context, price){
-			context.commit("updatePrice", price)
-		}
-	},
-
-	getters:{
-		getOrder(state){
-			return state.order ? state.order : {}
-		},
-		getTotalPrice(state){
-			return state.totalPrice >= 0 ? state.totalPrice : 0
-		}
-	}
+const store = new Vuex.Store({
+  // 全局变量
+  state: {
+    userId: '',
+    userName: '登录',
+    phone: '',
+    loginStatus: 0,
+    createTime: '',
+    token: ''
+  },
+  getters: {
+    userName (state) {
+      return state.userName
+    },
+    phone (state) {
+      return state.phone
+    },
+    loginStatus (state) {
+      return state.loginStatus
+    }
+  },
+  // 修改全局变量必须通过mutations中的方法
+  // mutations只能采用同步方法
+  mutations: {
+    login (state, loginFormData) {
+      state.userId = loginFormData.userId
+      state.userName = loginFormData.userName
+      state.phone = loginFormData.phone
+      state.loginStatus = loginFormData.status
+      state.createTime = loginFormData.createTime
+      state.token = loginFormData.token
+    },
+    logout (state) {
+      state.userId = ''
+      state.userName = '登录'
+      state.phone = ''
+      state.loginStatus = 0
+      state.createTime = ''
+    }
+  },
+  // 异步方法用actions
+  // actions不能直接修改全局变量，需要调用commit方法来触发mutation中的方法
+  actions: {
+    login(context, payload) {
+      context.commit('login', payload)
+    },
+    logout(context) {
+      context.commit('logout')
+    }
+  }
 })
+
+export default store

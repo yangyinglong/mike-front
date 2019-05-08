@@ -15,11 +15,9 @@
 				</div>
 			</div>
 			<div class="index-left-block lastest-news">
-				<h2>最新消息</h2>
+				<h2>小店公告</h2>
 				<ul>
-					<li v-for="item in news">
-						<a target="_blank" :href="item.url">{{ item.author_name}}</a>
-					</li>
+					<li>最新开业，请多多光顾，新老顾客，优惠多多</li>
 				</ul>
 			</div>
 		</div>
@@ -57,7 +55,9 @@
 						<h2>{{ borad.title }}</h2>
 						<p>{{ borad.desc }}</p>
 						<div class="index-board-button">
-							<router-link :to="{path:'/details/' + borad.tag}" class="button">立即购买</router-link>
+							<lable @click="order(borad.title)" class="button">立即预定</lable>
+							<!-- <el-button @click="order" type="text">立即预定</el-button> -->
+							<!-- <router-link :to="{path:'/order'}" class="button">立即预定</router-link> -->
 						</div>
 					</div>					
 				</div>
@@ -86,67 +86,72 @@ export default{
 			news:[],
 			boradList:[
 				{
-					title:"开放产品",
-					desc:"开放产品是一款开放产品",
-					tag:"earth"
+					title:"牛奶类型1",
+					desc:"这是一款纯牛奶，让您更健康",
+					tag:"type1"
 				},
 				{
-					title:"品牌营销",
-					desc:"品牌营销帮助你的产品更好的找到定位",
-					tag:"loud"
+					title:"牛奶类型2",
+					desc:"这是一款纯牛奶，让您更健康",
+					tag:"type2"
 				},
 				{
-					title:"使命必达",
-					desc:"使命必达快速迭代水平保持最前端的速度",
-					tag:"car"
+					title:"牛奶类型3",
+					desc:"这是一款纯牛奶，让您更健康",
+					tag:"type3"
 				},
 				{
-					title:"永攀高峰",
-					desc:"帮助你勇闯高峰，达到事业最高峰",
-					tag:"hill"
+					title:"牛奶类型4",
+					desc:"这是一款纯牛奶，让您更健康",
+					tag:"type4"
 				}
 			],
 			productList:[
 				{
-					category:"手机应用类",
+					category:"全部产品",
 					list:[
 						{
-							name:"91助手",
+							name:"牛奶类型1",
 							url:"http://www.wwtliu.com/blog",
 							hot:false
 						},
 						{
-							name:"豌豆荚",
+							name:"牛奶类型2",
 							url:"http://www.wwtliu.com/blog",
 							hot:true
 						},
 						{
-							name:"金山毒霸",
+							name:"牛奶类型3",
+							url:"http://www.wwtliu.com/blog",
+							hot:false
+						},
+						{
+							name:"牛奶类型4",
 							url:"http://www.wwtliu.com/blog",
 							hot:false
 						}
 					]
 				},
 				{
-					category:"pc产品类",
+					category:"优惠活动",
 					list:[
 						{
-							name:"webStorm",
+							name:"优惠活动1",
 							url:"http://www.wwtliu.com/blog",
 							hot:true
 						},
 						{
-							name:"HBuilder",
+							name:"优惠活动2",
 							url:"http://www.wwtliu.com/blog",
 							hot:false
 						},
 						{
-							name:"Sublime Text 3",
+							name:"优惠活动3",
 							url:"http://www.wwtliu.com/blog",
 							hot:true
 						},
 						{
-							name:"Atom",
+							name:"优惠活动4",
 							url:"http://www.wwtliu.com/blog",
 							hot:false
 						}
@@ -154,6 +159,19 @@ export default{
 				}
 			]
 
+		}
+	},
+	methods: {
+		order(title) {
+			if (this.$store.state.loginStatus == 0) {
+				this.$notify.info({
+					title: '请登录',
+					message: '亲！登录之后，预定查看更方便哟'
+				});
+			}else {
+				sessionStorage.setItem('mikeType', title)
+				this.$router.push({name: 'Order', params: {}})
+			}
 		}
 	},
 	created() {
@@ -243,16 +261,16 @@ export default{
 	min-height: 125px;
 	padding-left: 120px;
 }
-.index-board-car .index-board-item-inner {
+.index-board-type1 .index-board-item-inner {
 	background: url(../assets/images/1.jpg) no-repeat;
 }
-.index-board-loud .index-board-item-inner {
+.index-board-type2 .index-board-item-inner {
 	background: url(../assets/images/2.jpg) no-repeat;
 }
-.index-board-earth .index-board-item-inner {
+.index-board-type3 .index-board-item-inner {
 	background: url(../assets/images/3.jpg) no-repeat;
 }
-.index-board-hill .index-board-item-inner {
+.index-board-type4 .index-board-item-inner {
 	background: url(../assets/images/4.jpg) no-repeat;
 }
 .index-board-item h2 {

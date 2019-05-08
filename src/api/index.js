@@ -84,5 +84,20 @@ export default {
 
   Register(params) {
     return fetch('/user/register', params)
-  }
+  },
+  Reserve(params) {
+    return fetch('/order/reserve', params)
+  },
+  QueryMoney(params){
+    return fetch('/order/querymoney', params)
+  },
+  NoticePayment(params){
+    return fetch('/order/noticepayment', params)
+  },
+  ShowOrders(params){
+    return fetch('/order/showorder', params)
+  },
+  DeleOrder(params){
+    return fetch('/order/deleorder', params)
+  },
 }

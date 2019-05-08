@@ -2,15 +2,18 @@
 	<div class="app-head">
 		<div class="app-head-inner">
 			<router-link to="/"><img src="../assets/logo.png" alt=""></router-link>			
-			<span>尚学堂旗下品牌：云数学院|速学院|百战程序员|优效学院线上培训-优效聚名师，学习更有效</span>
+			<span style="font-size: 15px">小邵牛奶店：在线预定 | 准时送达 | 价格优惠 | 种类齐全 | 让您的生活更健康</span>
 			<div class="head-nav">
 				<ul class="nav-list">
 					<li>
 						<Login />
 					</li>
 					<li class="nav-pile">|</li>
-					<li>
+					<li v-if="loginStatus===0">
 						<router-link to="/register">注册</router-link>
+					</li>
+					<li v-else>
+						<router-link :to="{path:'/mylist'}">我的订单</router-link>
 					</li>
 					<li class="nav-pile">|</li>
 					<li>关于</li>
@@ -33,6 +36,28 @@ export default{
 	},
 	components: {
 		Login
+	},
+	computed: {
+		loginStatus() {
+			return this.$store.state.loginStatus
+		}
+	},
+	created(){
+		this.getNameFromSession()
+	},
+	methods: {
+		getNameFromSession() {
+			if (sessionStorage.getItem('status') == '1' || sessionStorage.getItem('status') == '2') {
+				this.$store.state.userName = sessionStorage.getItem('userName')
+				this.$store.state.loginStatus = parseInt(sessionStorage.getItem('status'))
+				this.$store.state.token = sessionStorage.getItem('token')
+				this.$store.state.phone = sessionStorage.getItem('phone')
+			} else {
+				this.$store.state.userName = '登录',
+				this.$store.state.loginStatus = 0,
+				this.Login.status = 0
+			}
+		},
 	}
 }
 </script>
